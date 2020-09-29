@@ -151,21 +151,111 @@ Como vamos construir uma API REST, é importante conhecer alguns conceitos desse
 
 ===============================================================================
 
+
+dependencias do pom para trabalhar com banco de dados
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
+
+
+
+
+####################################################
+
+o caminho do arquivo é src/main/resources
+
+Arquivo application.properties
+
+=======================================
+
+# data source
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.url=jdbc:h2:mem:alura-forum
+spring.datasource.username=sa
+spring.datasource.password=
+
+# jpa
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+
+# h2
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+####################################################
+
+
 ===============================================================================
+
+Em uma aplicação Spring Boot, onde são declaradas as configurações do banco de dados utilizado por ela?
+
+No arquivo application.properties
+
+
+Alternativa correta! No arquivo application.properties, devem ser declaradas as configurações da aplicação, inclusive as relacionadas ao banco de dados dela.
+===============================================================================
+
+o Sring boot trabalha com o padrao repository difeten do padrao Dao, que exemplo, existe a classe modelo carro, e existira a classe dao carroDAo, e assim por diante
+
+
+
+o padrao repository trabalha com inerfaces
+
+
+
+
+
 
 ===============================================================================
 
 ===============================================================================
 
+Vimos no último vídeo que em uma aplicação que utiliza o Spring Data JPA, o acesso ao banco de dados é feito com a criação de uma interface, seguindo o padrão Repository. Qual alternativa representa uma interface repository declarada corretamente?
+
+public interface TopicoRepository 
+    extends JpaRepository<Topico, Long>{}
+
+Alternativa correta! A interface TopicoRepository está herdando da interface correta do Spring Data JPA.
+
 ===============================================================================
+outr maneira de motnar query
+
+ Mas às vezes você não gostou do nome de método, não queria que o método tivesse esse nome em inglês. Por exemplo, queria chamar meu método de carregarPorNomeDoCurso. Se você criar um método com essa nomenclatura, você não está mais seguindo o padrão, a convenção do Spring data. Ele não vai conseguir gerar a query para você. Você não vai ter mais a mágica dele gerar a query automaticamente para você. Só que você consegue ensinar para ele.
+
+[12:14] Existe uma anotação que você coloca, o @query. E aí você importa desse pacote, Spring framework data. Nos parênteses, entre aspas, você vai ter que montar a query na mão, usando o jpql. Você teria que fazer um SELECT t FROM topico t WHERE t.curso.nome = :nomeCurso.
+
+[12:54] A vantagem dessa segunda abordagem é que você coloca o nome do método que você quiser, em português, no estilo que você quiser, só que a desvantagem é que você vai ter que montar a query manualmente. Você vai ter que colocar o @query e gerar a query manualmente com jpql.
+
+
+Tem mais um problema. Como eu tenho um parâmetro, o Spring não assume que esse parâmetro é o que está no método. Você precisa colocar mais uma anotação, que é o @Param. Aí fica a critério do que você definir com a sua equipe, o que vocês vão usar.
+
+
 
 ===============================================================================
 
-===============================================================================
+Tem mais um problema. Como eu tenho um parâmetro, o Spring não assume que esse parâmetro é o que está no método. Você precisa colocar mais uma anotação, que é o @Param. Aí fica a critério do que você definir com a sua equipe, o que vocês vão usar.
+
+Tem mais um problema. Como eu tenho um parâmetro, o Spring não assume que esse parâmetro é o que está no método. Você precisa colocar mais uma anotação, que é o @Param. Aí fica a critério do que você definir com a sua equipe, o que vocês vão usar.
+
 
 ===============================================================================
+Nesta aula, aprendemos que:
 
-===============================================================================
+Para utilizar o JPA no projeto, devemos incluir o módulo Spring Boot Data JPA, que utiliza o Hibernate, por padrão, como sua implementação;
+Para configurar o banco de dados da aplicação, devemos adicionar as propriedades do datasource e do JPA no arquivo src/main/resources/application.properties;
+Para acessar a página de gerenciamento do banco de dados H2, devemos configurar o console do H2 com propriedades no arquivo src/main/resources/application.properties;
+Para mapear as classes de domínio da aplicação como entidade JPA, devemos utilizar as anotações @Entity, @Id, @GeneratedValue, @ManyToOne, @OneToMany e @Enumerated;
+Para que o Spring Boot popule automaticamente o banco de dados da aplicação, devemos criar o arquivo src/main/resources/data.sql;
+Para criar um Repository, devemos criar uma interface, que herda da interface JPARepository do Spring Data JPA;
+Para criar consultas que filtram por atributos da entidade, devemos seguir o padrão de nomenclatura de métodos do Spring, como por exemplo findByCursoNome;
+Para criar manualmente a consulta com JPQL, devemos utilizar a anotação @Query;====================================================
 
 ===============================================================================
 
